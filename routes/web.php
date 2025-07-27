@@ -87,7 +87,7 @@ Route::get('/insert', function() {
         ->insert([
             'name' => 'Juan Perez',
             'email' => 'juan@prueba.cl',
-            'password' => 'juan',
+            'password' => 'juan'
         ]);
     return $insertado;
 });
@@ -97,8 +97,8 @@ Route::get('/getId', function () {
     $id = DB::table('users')
         ->insertGetId([
             'name' => 'Juan Perez',
-            'email' => 'juan2@prueba.cl',
-            'password' => 'juan2',
+            'email' => '',
+            'password' => ''
         ]);
     return $id; // No retornada un true o false si se logro insertar (1 o 0), sino el ID del registro insertado
 });
