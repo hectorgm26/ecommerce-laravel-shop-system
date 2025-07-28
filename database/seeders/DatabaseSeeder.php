@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Contracts\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         ]); */
 
         // Para llamar a todos los seeders y poder ejecutarlos (incluyendo factories)
-        $this->call(EntradasTableSeeder::class); // agregando en el array de $seeders los seeders que se quieran ejecutar
+        // $this->call(EntradasTableSeeder::class); // agregando en el array de $seeders los seeders que se quieran ejecutar
+
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }
