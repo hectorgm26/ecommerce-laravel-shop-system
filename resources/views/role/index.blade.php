@@ -23,7 +23,9 @@
                                         <button type="submit" class="btn btn-secondary">
                                             <i class="fas fa-search"></i> Buscar
                                         </button>
+                                        @can('rol-create')
                                         <a href="{{ route('roles.create') }}" class="btn btn-primary">Nuevo</a>
+                                        @endcan
                                     </div>
                                 </div>
                             </form>
@@ -55,10 +57,14 @@
                                         @foreach ( $registros as $reg )
                                             <tr class="align-middle">
                                                 <td>
+                                                    @can('rol-edit')
                                                     <a href="{{ route('roles.edit', $reg->id) }}" class="btn btn-info btn-sm"><i class="bi bi-pencil-fill"></i></a>&nbsp; {{-- BOTON DEDITAR --}}
+                                                    @endcan
 
+                                                    @can('rol-delete')
                                                     <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{ $reg->id }}"><i class="bi bi-trash-fill"></i>
                                                     </button> {{-- BOTON ELIMINAR --}}
+                                                    @endcan
 
                                                 </td>
                                                 <td>{{ $reg->id }}</td>
@@ -105,7 +111,11 @@
                                                             - Se muestra un <span> gris con el texto "Sin permisos".
                                                 --}}
                                             </tr>
-                                            @include('role.delete')
+
+                                            @can('rol-delete')
+                                                @include('role.delete')
+                                            @endcan
+
                                         @endforeach
                                     @endif
                                 </tbody>

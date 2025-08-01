@@ -23,7 +23,10 @@
                                         <button type="submit" class="btn btn-secondary">
                                             <i class="fas fa-search"></i> Buscar
                                         </button>
-                                        <a href="{{ route('usuarios.create') }}" class="btn btn-primary">Nuevo</a>
+
+                                        @can('user-create')
+                                        <a href="{{ route('usuarios.create') }}" class="btn btn-primary">Nuevo<a>
+                                        @endcan
                                     </div>
                                 </div>
                             </form>
@@ -44,25 +47,32 @@
                                         <th style="width: 20px">ID</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
+                                        <th>Rol</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (count($registros) <= 0)
                                         <tr>
-                                            <td colspan="5">No hay registros que coincidan con la busqueda</td>
+                                            <td colspan="6">No hay registros que coincidan con la busqueda</td>
                                         </tr>
                                     @else
                                         @foreach ( $registros as $reg )
                                             <tr class="align-middle">
                                                 <td>
+                                                    @can('user-edit')
                                                     <a href="{{ route('usuarios.edit', $reg->id) }}" class="btn btn-info btn-sm"><i class="bi bi-pencil-fill"></i></a>&nbsp; {{-- BOTON DEDITAR --}}
+                                                    @endcan
 
+                                                    @can('user-delete')
                                                     <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{ $reg->id }}"><i class="bi bi-trash-fill"></i>
                                                     </button> {{-- BOTON ELIMINAR --}}
+                                                    @endcan
 
+                                                    @can('user-activate')
                                                     <button class="btn {{ $reg->activo ? 'btn-warning' : 'btn-success' }} btn-sm" data-bs-toggle="modal" data-bs-target="#modal-toggle-{{ $reg->id }}"><i class="bi {{ $reg->activo ? 'bi-ban' : 'bi-check-circle' }}"></i>
                                                     </button> {{-- BOTON PARA SOFT DELETE --}}
+                                                    @endcan
 
                                                 </td>
                                                 <td>{{ $reg->id }}</td>
@@ -70,6 +80,16 @@
                                                     {{ $reg->name }}
                                                 </td>
                                                 <td>{{ $reg->email }}</td>
+
+                                                <td>
+                                                    @if($reg->roles->isNotEmpty())
+                                                        <span class="badge bg-primary">
+                                                            {{ $reg->roles->pluck('name')->implode('</span> <span class="badge bg-primary">') }}
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-secondary">Sin rol asignado</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <span class="badge {{ $reg->activo ? 'bg-success' : 'bg-danger' }}">
                                                         {{ $reg->activo ? 'Activo' : 'Inactivo' }}
@@ -77,8 +97,14 @@
                                                 </td>
                                             </tr>
 
-                                            @include('usuario.delete') {{-- Incluye el modal de eliminación --}}
-                                            @include('usuario.activate') {{-- Incluye el modal de activación/desactivación --}}
+                                            @can('usuario-delete')
+                                                @include('usuario.delete') {{-- Incluye el modal de eliminación --}}
+                                            @endcan
+
+                                            @can('usuario-activate')
+                                                @include('usuario.activate') {{-- Incluye el modal de activación/desactivación --}}
+                                            @endcan
+
                                         @endforeach
                                     @endif
                                 </tbody>

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\PerfilController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -29,6 +32,8 @@ Route::middleware(['auth'])->group(function() {
         return redirect('/login');
     })->name('logout');
 
+    Route::get('/perfil', [PerfilController::class, 'edit'])->name('perfil.edit');
+    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
 });
 
 // Agrupacion para evitar que una vez autenticado, el usuario pueda acceder a la pagina de login (por ya estar logueado)
@@ -39,4 +44,14 @@ Route::middleware(['guest'])->group(function() {
     })->name('login');
 
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+    Route::get('/registro', [RegisterController::class, 'showRegistroForm'])->name('registro');
+    Route::post('/registro', [RegisterController::class, 'registrar'])->name('registro.store');
+
+    // Rutas para el restablecimiento de contraseña
+    Route::get('/password/reset', [ResetPasswordController::class, 'showRequestForm'])->name('password.request');
+    Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.send-link');
+
+    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 });

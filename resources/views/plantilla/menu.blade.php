@@ -31,7 +31,7 @@
                 </li>
 
                 
-
+                @canany(['user-list', 'rol-list'])
                 <li class="nav-item" id="mnuSeguridad">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
@@ -40,22 +40,30 @@
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview">
+
+                        @can('user-list')
                         <li class="nav-item">
                             <a href="{{ route('usuarios.index') }}" class="nav-link" id="itemUsuario">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Usuarios</p>
                             </a>
                         </li>
+                        @endcan
 
+                        @can('rol-list')
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link" id="itemRole">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Roles</p>
                             </a>
                         </li>
+                        @endcan
+
                     </ul>
                 </li>
+                @endcanany
 
             </ul>
             <!--end::Sidebar Menu-->

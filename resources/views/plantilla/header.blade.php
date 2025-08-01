@@ -45,7 +45,7 @@
                     
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        {{-- <a href="#" class="btn btn-default btn-flat">Perfil</a> --}}
+                        <a href="{{ route('perfil.edit') }}" class="btn btn-default btn-flat">Perfil</a>
                         <a href="#" onclick="document.getElementById('logout-form').submit();" class="btn btn-default btn-flat float-end">Cerrar Sesión</a>
                     </li>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -9,11 +10,16 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+
+    use AuthorizesRequests;
+    
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $this->authorize('rol-list'); // Verifica que solo los usuarios con el permiso role-list puedan acceder a esta ruta
+
         $texto = $request->input('texto');
 
         // trae cada rol con sus permisos
@@ -29,6 +35,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->authorize('rol-create');
+
         $permissions = Permission::all(); // se agregan todos los permisos disponibles
         return view('role.action', compact('permissions'));
     }
@@ -38,6 +46,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('rol-create');
+
         $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'required|array',
@@ -57,6 +67,8 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('rol-delete');
+
         $registro = Role::findOrFail($id);
         $registro->delete();
 
@@ -65,6 +77,8 @@ class RoleController extends Controller
 
     public function edit(string $id) {
 
+        $this->authorize('rol-edit');
+
         $registro = Role::findOrFail($id);
         $permissions = Permission::all(); // se agregan todos los permisos disponibles
 
@@ -72,6 +86,8 @@ class RoleController extends Controller
     }
 
     public function update(Request $request, string $id) {
+
+        $this->authorize('rol-edit');
 
         $registro = Role::findOrFail($id);
         $request->validate([
