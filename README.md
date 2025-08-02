@@ -11,7 +11,6 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - [Configuración](#-configuración)
 - [Uso](#-uso)
 
-- [Despliegue](#-despliegue)
 - [Contribución](#-contribución)
 - [Licencia](#-licencia)
 
