@@ -1,6 +1,6 @@
 # 🛒 Ecommerce Laravel Shop System
 
-Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel administrativo con **AdminLTE 4**, carrito de compras, gestión de usuarios con roles y permisos, y funcionalidades avanzadas para tiendas online modernas.
+Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel administrativo con **AdminLTE 4**, carrito de compras, gestión de usuarios con roles y permisos, y funcionalidades típicas de tiendas online modernas.
 
 ## 📋 Tabla de Contenido
 
@@ -8,6 +8,7 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - [Tecnologías](#-tecnologías)
 - [Requisitos](#-requisitos)
 - [Instalación](#-instalación)
+- [Configuración](#-configuración)
 - [Uso](#-uso)
 
 - [Despliegue](#-despliegue)
@@ -24,14 +25,15 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - ✅ Paginación optimizada para grandes volúmenes de datos
 
 ### 🔐 **Autenticación y Autorización**
-- ✅ Sistema de login/registro de usuarios
+- ✅ Sistema de login/registro con autenticación web tradicional
+- ✅ Sesiones clásicas de Laravel (`Auth::attempt`, cookies, middleware `auth`)
 - ✅ Recuperación de contraseñas por email
 - ✅ Gestión de perfiles de usuario
-- ✅ Roles y permisos configurables con **Laravel Permission**
+- ✅ Roles y permisos configurables con **Laravel Permission** usando RBAC (Role-Based Access Control)
 - ✅ Middleware personalizado para protección de rutas
 
 ### 🎛️ **Panel Administrativo**
-- ✅ Dashboard con métricas y estadísticas
+- ✅ Dashboard
 - ✅ CRUD completo de productos, usuarios y pedidos
 - ✅ Gestión de roles y permisos
 - ✅ Interfaz AdminLTE 4 responsive
@@ -41,7 +43,6 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 ### 🛠️ **Desarrollo y Arquitectura**
 - ✅ Arquitectura MVC limpia y escalable
 - ✅ Migraciones y seeders para base de datos
-- ✅ Model Factories para testing
 - ✅ Eloquent ORM con relaciones optimizadas
 - ✅ Query Builder para consultas complejas
 - ✅ Validación de formularios con FormRequest
@@ -49,18 +50,17 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 
 ## 🚀 Tecnologías
 
-- **Backend**: Laravel 12, PHP 8.1+
+- **Backend**: Laravel 12, PHP 8.2+
 - **Base de Datos**: MySQL 8.0+
 - **Frontend**: Bootstrap 5, AdminLTE 4
-- **Autenticación**: Laravel Sanctum
-- **Permisos**: spatie/laravel-permission
-- **Despliegue**: Compatible con cPanel y hosting compartido
+- **Autenticación**: Sesiones clásicas de Laravel (Auth::attempt, cookies, middleware auth)
+- **Permisos**: spatie/laravel-permission (RBAC)
 
 ## 📋 Requisitos
 
 - **PHP** >= 8.2
 - **Composer** >= 2.0
-- **MySQL** >= 8.0
+- **MySQL** >= 8.0 o **PostgreSQL** >= 12
 - **Node.js** >= 16 (para assets)
 - **Git**
 
@@ -112,21 +112,55 @@ php artisan serve
 
 🎉 **¡Listo!** Tu aplicación estará disponible en `http://localhost:8000`
 
+## ⚙️ Configuración
+
+### Usuarios por Defecto
+*Los usuarios y roles se configurarán durante el desarrollo del curso*
+
+**Usuarios de prueba disponibles después de ejecutar seeders:**
+- **Admin**: admin@prueba.com | Contraseña: admin123456
+- **Cliente**: cliente@prueba.com | Contraseña: cliente123456
+
+### Configuración de Email (Gmail SMTP)
+Para funcionalidades de recuperación de contraseñas y notificaciones, configura Gmail SMTP en `.env`:
+```env
+MAIL_MAILER=smtp
+MAIL_SCHEME=null
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=tu_correo@gmail.com
+MAIL_PASSWORD=tu_contraseña_de_aplicacion
+MAIL_FROM_ADDRESS="tu_correo@gmail.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+**Importante**: Para usar Gmail SMTP necesitas generar una "Contraseña de aplicación" siguiendo esta [guía oficial de Google](https://support.google.com/mail/answer/185833?hl=es-419&authuser=4).
+
 ## 🎯 Uso
 
-*Las funcionalidades se desarrollarán progresivamente durante el curso siguiendo las mejores prácticas de Laravel*
+### Sistema de Roles y Permisos (RBAC)
+El sistema implementa un modelo de control de acceso basado en roles con dos roles principales:
 
-## 🚀 Despliegue
+**👨‍💼 Administrador (admin@prueba.com)**
+- Gestión completa de usuarios (crear, editar, eliminar, activar/desactivar)
+- Administración de roles y permisos
+- CRUD completo de productos
+- Gestión de pedidos (listar, anular)
 
-### Hosting Compartido con cPanel
-1. **Subir archivos**: Sube todos los archivos excepto la carpeta `public` a tu directorio raíz
-2. **Configurar public**: Mueve el contenido de `public/` a `public_html/`
-3. **Actualizar paths**: Modifica `public_html/index.php` para apuntar a las rutas correctas
-4. **Configurar .env**: Ajusta las variables de entorno para producción
-5. **Optimizar**: Ejecuta comandos de optimización
+**🛒 Cliente (cliente@prueba.com)**
+- Ver y cancelar sus propios pedidos
+- Gestionar perfil personal
+- Realizar compras en la tienda
 
-```bash
-# Comandos de optimización para producción
+### Funcionalidades Principales
+- **Ruta principal (/)**: Catálogo de la tienda online
+- **Autenticación**: Login/registro con recuperación de contraseña por email
+- **Carrito de compras**: Agregar, modificar cantidades, eliminar productos
+- **Panel de usuario**: Gestión de pedidos y perfil personal
+- **Panel administrativo**: Control total del sistema (solo admin)
+
+### Comandos de optimización
+```env
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
@@ -157,10 +191,23 @@ DB_PASSWORD=contraseña_segura
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Abre un Pull Request
 
+### Estándares de Código
+- Seguir las convenciones de Laravel
+- Documentar cambios importantes
+- Usar commits descriptivos
+
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
 
+## 📞 Soporte
+
+- **Documentación**: [Wiki del proyecto](../../wiki)
+- **Issues**: [Reportar problemas](../../issues)
+- **Discussions**: [Foro de la comunidad](../../discussions)
+
+---
+
 ⭐ **¿Te ha gustado el proyecto? ¡Dale una estrella!** ⭐
 
-Desarrollado con ❤️ usando Laravel 12 por Hector Gonzalez 
+Desarrollado con ❤️ usando Laravel 12
