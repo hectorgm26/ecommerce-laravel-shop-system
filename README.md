@@ -33,7 +33,7 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - ✅ Middleware personalizado para protección de rutas
 
 ### 🎛️ **Panel Administrativo**
-- ✅ Dashboard
+- ✅ Dashboard de bienvenida, con mensajes de errores de acceso, en caso de no tener los permisos necesarios
 - ✅ CRUD completo de productos, usuarios y pedidos
 - ✅ Gestión de roles y permisos
 - ✅ Interfaz AdminLTE 4 responsive
@@ -43,10 +43,13 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 ### 🛠️ **Desarrollo y Arquitectura**
 - ✅ Arquitectura MVC limpia y escalable
 - ✅ Migraciones y seeders para base de datos
+- ✅ Model Factories para testing
 - ✅ Eloquent ORM con relaciones optimizadas
 - ✅ Query Builder para consultas complejas
-- ✅ Validación de formularios con FormRequest
+- ✅ Validación de formularios con FormRequest personalizadas
 - ✅ Blade templates con herencia y componentes
+- ✅ Configuración de base de datos con charset utf8mb4 y collation utf8mb4_spanish_ci
+- ✅ Gestión de archivos con nombres únicos y organización por carpetas
 
 ## 🚀 Tecnologías
 
@@ -55,6 +58,7 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - **Frontend**: Bootstrap 5, AdminLTE 4
 - **Autenticación**: Sesiones clásicas de Laravel (Auth::attempt, cookies, middleware auth)
 - **Permisos**: spatie/laravel-permission (RBAC)
+- **Despliegue**: Compatible con cPanel y hosting compartido
 
 ## 📋 Requisitos
 
@@ -90,10 +94,12 @@ Edita el archivo `.env` con tus credenciales de base de datos:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=ecommerce_laravel
+DB_DATABASE=dbsistema
 DB_USERNAME=tu_usuario
 DB_PASSWORD=tu_contraseña
 ```
+
+**Configuración de Base de Datos**: El proyecto usa `utf8mb4` y `utf8mb4_spanish_ci` en `config/database.php` para soporte completo de caracteres Unicode (emojis, acentos españoles, caracteres especiales asiáticos, etc.)
 
 ### 5. Ejecutar migraciones y seeders
 ```bash
@@ -135,6 +141,27 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 **Importante**: Para usar Gmail SMTP necesitas generar una "Contraseña de aplicación" siguiendo esta [guía oficial de Google](https://support.google.com/mail/answer/185833?hl=es-419&authuser=4).
+
+### Validación de Formularios
+El sistema utiliza **FormRequest personalizadas** para validación robusta:
+
+**ProductoRequest**: Validación de productos con reglas específicas
+- Código único por producto (permite edición del mismo)
+- Validación de imágenes (jpg, jpeg, png, máximo 2MB)
+- Imagen obligatoria al crear, opcional al editar
+- Mensajes de error personalizados en español
+
+**UserRequest**: Validación de usuarios con lógica condicional
+- Email único ignorando usuario actual al editar
+- Contraseña obligatoria solo al crear usuarios
+- Validación dinámica según método HTTP (POST/PUT/PATCH)
+
+### Gestión de Archivos
+Los productos incluyen manejo inteligente de imágenes:
+- **Nombres únicos**: Prefijo aleatorio + nombre original para evitar duplicados
+- **Organización**: Imágenes guardadas en `public/uploads/productos/`
+- **Optimización**: Eliminación automática de imágenes anteriores al actualizar
+- **Validación**: Solo archivos jpg, jpeg, png hasta 2MB
 
 ## 🎯 Uso
 
