@@ -24,7 +24,7 @@ class AuthController extends Controller
 
             // validar que este activo
             if($user->activo) {
-                return redirect()->route('dashboard');
+                return redirect()->intended(); // Intended redirige al usuario a la ruta que estaba intentando acceder antes de ser redirigido al login
             } else {
                 Auth::logout(); // Si el usuario no esta activo, se cierra la sesion
                 return back()->with('error', 'Su cuenta esta inactiva. Contacte al administrador.');

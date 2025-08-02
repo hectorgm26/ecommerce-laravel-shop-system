@@ -4,14 +4,26 @@ use App\Http\Controllers\Auth\PerfilController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Rutas para el ecommerce
+Route::get('/', [WebController::class, 'index'])->name('web.index');
+Route::get('/producto/{id}', [WebController::class, 'show'])->name('web.show');
+
+Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
+Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+Route::get('/carrito/sumar', [CarritoController::class, 'sumar'])->name('carrito.sumar');
+Route::get('/carrito/restar', [CarritoController::class, 'restar'])->name('carrito.restar');
+Route::get('/carrito/eliminar/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+Route::get('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
+
 
 // Solo los usuarios autenticados pueden acceder a estas rutas
 Route::middleware(['auth'])->group(function() {
@@ -34,6 +46,15 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/perfil', [PerfilController::class, 'edit'])->name('perfil.edit');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
+
+    // Rutas para el manejo de productos
+    Route::resource('/productos', ProductoController::class);
+
+    // RUTA para el pedido de un usuario ya autenticado
+    Route::post('/pedido/realizar', [PedidoController::class, 'realizar'])->name('pedido.realizar');
+    Route::get('/perfil/pedidos', [PedidoController::class, 'index'])->name('perfil.pedidos');
+    Route::patch('/pedidos/{id}/estado', [PedidoController::class, 'cambiarEstado'])->name('pedidos.cambiar.estado');
+    
 });
 
 // Agrupacion para evitar que una vez autenticado, el usuario pueda acceder a la pagina de login (por ya estar logueado)
@@ -44,7 +65,6 @@ Route::middleware(['guest'])->group(function() {
     })->name('login');
 
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
     Route::get('/registro', [RegisterController::class, 'showRegistroForm'])->name('registro');
     Route::post('/registro', [RegisterController::class, 'registrar'])->name('registro.store');
 

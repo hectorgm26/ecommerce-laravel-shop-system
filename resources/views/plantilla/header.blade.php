@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+            <li class="nav-item d-none d-md-block"><a href="/" class="nav-link">Tienda</a></li>
         </ul>
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
@@ -38,7 +38,7 @@
                     <li class="user-header text-bg-primary">
                         <img src="{{ asset('assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow" alt="User Image" />
                         <p>
-                            {{ Auth::user()->name }} - QA Engineer
+                            {{ Auth::user()->name }}
                         </p>
                     </li>
                     <!--end::User Image-->
