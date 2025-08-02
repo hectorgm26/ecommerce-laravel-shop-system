@@ -227,14 +227,6 @@ DB_PASSWORD=contraseña_segura
 
 Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
 
-## 📞 Soporte
-
-- **Documentación**: [Wiki del proyecto](../../wiki)
-- **Issues**: [Reportar problemas](../../issues)
-- **Discussions**: [Foro de la comunidad](../../discussions)
-
----
-
-⭐ **¿Te ha gustado el proyecto? ¡Dale una estrella!** ⭐
+## ⭐ **¿Te ha gustado el proyecto? ¡Dale una estrella!** ⭐
 
 Desarrollado con ❤️ usando Laravel 12
