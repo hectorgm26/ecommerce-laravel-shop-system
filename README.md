@@ -57,7 +57,6 @@ Sistema de ecommerce completo desarrollado con **Laravel 12**, que incluye panel
 - **Frontend**: Bootstrap 5, AdminLTE 4
 - **Autenticación**: Sesiones clásicas de Laravel (Auth::attempt, cookies, middleware auth)
 - **Permisos**: spatie/laravel-permission (RBAC)
-- **Despliegue**: Compatible con cPanel y hosting compartido
 
 ## 📋 Requisitos
 
