@@ -216,11 +216,6 @@ DB_PASSWORD=contraseña_segura
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Abre un Pull Request
 
-### Estándares de Código
-- Seguir las convenciones de Laravel
-- Documentar cambios importantes
-- Usar commits descriptivos
-
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
